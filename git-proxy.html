@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snorbo's GitHub 加速代理</title>
+    <style>
+        :root {
+            --primary-color: #24292e;
+            --bg-color: #f6f8fa;
+            --text-color: #333;
+            --accent-color: #0366d6;
+            --border-radius: 6px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 40px 20px;
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-top: 30px;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 5px;
+        }
+
+        .proxy-form {
+            background-color: var(--bg-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            border: 1px solid #e1e4e8;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 10px 15px;
+            margin-right: 10px;
+            border: 1px solid #d1d5da;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
+        }
+
+        button {
+            background-color: #2ea44f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #2c974b;
+        }
+
+        code {
+            background-color: rgba(27,31,35,0.05);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 85%;
+        }
+
+        pre {
+            background-color: #f6f8fa;
+            padding: 16px;
+            overflow: auto;
+            border-radius: var(--border-radius);
+            font-size: 85%;
+            line-height: 1.45;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #586069;
+            font-size: 14px;
+        }
+        
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            input[type="text"] {
+                width: 100%;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Snorbo's GitHub 加速代理</h1>
+    
+    <p>这是一个基于 Cloudflare Workers 构建的 GitHub 代理加速服务，旨在解决部分网络环境下 GitHub 资源下载缓慢、克隆失败等问题。</p>
+
+    <div class="proxy-form">
+        <input type="text" id="urlInput" placeholder="输入 GitHub 链接，例如: https://github.com/snorbo/git-proxy">
+        <button onclick="jumpToProxy()">加速跳转</button>
+        <p style="font-size: 13px; color: #586069; margin-top: 10px; margin-bottom: 0;">支持 Release、Raw、Gist 以及仓库主页链接</p>
+    </div>
+
+    <h2>🛠️ 使用方法</h2>
+    <p>在任意需要加速的 GitHub 链接前，直接加上代理前缀：<code>https://git-proxy.snorbo.vip/</code></p>
+
+    <h3>1. Git Clone 仓库加速</h3>
+    <pre><code>git clone https://git-proxy.snorbo.vip/https://github.com/torvalds/linux.git</code></pre>
+
+    <h3>2. Release 附件下载</h3>
+    <pre><code>wget https://git-proxy.snorbo.vip/https://github.com/Fndroid/clash_for_windows_pkg/releases/download/0.20.25/Clash.for.Windows.Setup.0.20.25.exe</code></pre>
+
+    <h3>3. Raw 文件获取 (安装脚本)</h3>
+    <pre><code>curl -O https://git-proxy.snorbo.vip/https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh</code></pre>
+
+    <h2>⚠️ 注意事项</h2>
+    <ul>
+        <li>本服务由个人 (Snorbo) 搭建与维护，资源有限，请勿使用脚本进行大批量或超大文件的恶意下载。</li>
+        <li>代理服务可能会隐藏您真实的 IP 地址，如果在克隆私有仓库时遇到鉴权问题，建议使用 SSH 方式或官方原生链接。</li>
+        <li>本代理不会存储您的任何个人信息或源码数据，所有请求均通过 Cloudflare 网络直接转发。</li>
+    </ul>
+
+    <div class="footer">
+        Powered by Cloudflare Workers | <a href="https://www.snorbo.vip" target="_blank">返回主站 Snorbo.vip</a><br>
+        Based on <a href="https://github.com/hunshcn/gh-proxy" target="_blank">hunshcn/gh-proxy</a>
+    </div>
+</div>
+
+<script>
+    function jumpToProxy() {
+        const input = document.getElementById('urlInput').value.trim();
+        const prefix = 'https://git-proxy.snorbo.vip/';
+        
+        if (!input) {
+            alert('请输入需要加速的 GitHub 链接！');
+            return;
+        }
+
+        // 简单的验证是否包含 github 关键字，防止用户输错
+        if (!input.includes('github.com') && !input.includes('githubusercontent.com')) {
+             if(confirm('这似乎不是一个标准的 GitHub 链接，是否继续？')) {
+                 window.location.href = prefix + input;
+             }
+        } else {
+            window.location.href = prefix + input;
+        }
+    }
+    
+    // 支持按回车键触发跳转
+    document.getElementById('urlInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            jumpToProxy();
+        }
+    });
+</script>
+
+</body>
+</html>
